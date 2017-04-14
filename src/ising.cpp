@@ -12,8 +12,8 @@ using namespace arma;
 void initialize(int n, mat& lattice, double T, double& E,double& M,vector<double>&w){
     double de=-8;
     for(int i=0;i<=16;i++){
-        if(i%4==0){w.push_back(exp(-de/T));}
-        else{w.push_back(0);}
+        if(i%4==0){w[i]=(exp(-de/T));}
+        else{w[i]=(0);}
         de++;
     }
     for(int i=0;i<n;i++){
@@ -48,7 +48,7 @@ void initialize(int n, mat& lattice, double T, double& E,double& M,vector<double
     }
 }
 
-void metropolis(int n,mat& lattice, default_random_engine& e,double& E,
+void metropolis(int n, mat& lattice, default_random_engine& e,double& E,
         double& M,vector<double> w){
     int x,y,delta_E;
     vector<pair<int,int> > nn;

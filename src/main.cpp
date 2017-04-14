@@ -19,14 +19,34 @@ using namespace arma;
  * 
  */
 int main(int argc, char** argv) {
-    int n=4;
+    int n=100;
+    int cycles=1, cmax=100;
+    double Ti=1,Tf=3.,Tstep=0.001;
     mat lattice = zeros<mat>(n,n);
-    double E=0,M=0,T=1;
-    vector<double> w;
-    initialize(n,lattice,T,E,M,w);
-    for(auto element: w){
-        cout<<element<<" ";
+    default_random_engine e;
+    double E,M,Eavg,EEavg,Mavg,MMavg;
+    vector<double> w(17);
+    ofstream Efile("avg_energy.txt");
+    ofstream EEfile("avg_energy2.txt");
+    ofstream Mfile("avg_mag.txt");
+    ofstream MMfile("avg_mag2.txt");
+    for(double T = Ti;T<=Tf;T+=Tstep){
+        E=0;M=0;Eavg=0;EEavg=0;Mavg=0;MMavg=0;
+        initialize(n,lattice,T,E,M,w);
+        for(int cycles = 1;cycles<=cmax;cycles++){
+            metropolis(n,lattice,e,E,M,w);
+            Eavg+=E;EEavg+=E*E;Mavg+=M;MMavg+=M*M;
+        }
+        Eavg=Eavg/((double)cmax);
+        EEavg=EEavg/((double)cmax);
+        Mavg=Mavg/((double)cmax);
+        MMavg=MMavg/((double)cmax);
+        Efile<<T<<" "<<Eavg/((double)n*n)<<endl;
+        EEfile<<T<<" "<<EEavg/((double)n*n)<<endl;
+        Mfile<<T<<" "<<Mavg/((double)n*n)<<endl;
+        MMfile<<T<<" "<<MMavg/((double)n*n)<<endl;
     }
+
     
     default_random_engine engine;
     vector<pair<int,int> > neigh= nearest_neighbors(0,3,n);

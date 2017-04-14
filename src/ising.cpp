@@ -60,7 +60,7 @@ void metropolis(int n, mat& lattice, default_random_engine& e,double& E,
             delta_E=2*lattice(x,y)*(lattice(nn[0].first,nn[0].second)+
                     lattice(nn[1].first,nn[1].second)+lattice(nn[2].first,nn[2].second)+
                     lattice(nn[3].first,nn[3].second));
-            if(rand_index(e,n)<=w[delta_E+8]){
+            if(rand_num(e)<=w[delta_E+8]){
                 lattice(x,y)*=-1;
                 M+=(double)2*lattice(x,y);
                 E+=(double)delta_E;
@@ -101,5 +101,10 @@ vector<pair<int,int> > nearest_neighbors(int i, int j, int n){
 
 int rand_index(default_random_engine&e,int n){
     uniform_int_distribution<int> dist(0,n-1);
+    return dist(e);
+}
+
+double rand_num(default_random_engine&e){
+    uniform_real_distribution<double> dist(0.0,1.0);
     return dist(e);
 }

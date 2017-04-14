@@ -19,9 +19,8 @@ using namespace arma;
  * 
  */
 int main(int argc, char** argv) {
-    int n=100;
-    int cycles=1, cmax=100;
-    double Ti=1,Tf=3.,Tstep=0.001;
+    int n=40, cmax=5000;
+    double Ti=1.5,Tf=3.,Tstep=0.1;
     mat lattice = zeros<mat>(n,n);
     default_random_engine e;
     double E,M,Eavg,EEavg,Mavg,MMavg;
@@ -35,7 +34,7 @@ int main(int argc, char** argv) {
         initialize(n,lattice,T,E,M,w);
         for(int cycles = 1;cycles<=cmax;cycles++){
             metropolis(n,lattice,e,E,M,w);
-            Eavg+=E;EEavg+=E*E;Mavg+=M;MMavg+=M*M;
+            Eavg+=E;EEavg+=E*E;Mavg+=abs(M);MMavg+=M*M;
         }
         Eavg=Eavg/((double)cmax);
         EEavg=EEavg/((double)cmax);

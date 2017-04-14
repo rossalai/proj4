@@ -20,8 +20,10 @@ using namespace arma;
 
 void initialize(int, mat&, double, double&,double&,vector<double>&);
 int rand_index(default_random_engine&,int);
+double rand_num(default_random_engine&e);
 vector<pair<int,int> > nearest_neighbors(int , int , int );
 void metropolis(int, mat& , default_random_engine&,double&,double& ,vector<double>);
+
 
 #endif	/* ISING_H */
 

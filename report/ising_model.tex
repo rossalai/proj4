@@ -1,0 +1,122 @@
+\documentclass[prc,amsmath,twocolumn,superscriptaddress]{revtex4}
+%\bibliographystyle{prsty}
+\usepackage{gensymb}
+\usepackage{graphicx,color}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{verbatim}
+\usepackage{natbib}
+
+
+\begin{document}
+
+  \newcommand {\nc} {\newcommand}
+  \nc {\Sec} [1] {Sec.~\ref{#1}}
+  \nc {\IR} [1] {\textcolor{red}{#1}} 
+
+\title{PHY905 Project 4 - Ising Model}
+
+
+\author{Alaina~Ross}
+
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+ \noindent {\bf Background:} A fairly accurate model of the solar system can be achieved with the use of newtonian mechanics. However, this leads to many coupled differential equations which are difficult to solve analytically.
+\\ {\bf Purpose:} The goal of this work is to solve numerically the aforementioned problem. We aim to study the numerical stability of various computation methods as well as the numerical precision.
+\\ {\bf Method:} We approximate the derivatives in the coupled differential equations and solve them using the Euler method and the velocity Verlet method.
+\\ {\bf Results:} We find the the Euler method is unstable even in the binary Earth-Sun system, and causes non-conservation of both energy and angular momentum. In contrast, the velocity Verlet method is found to be very stable and enforces conservation of energy and angular momentum.
+ \\ {\bf Conclusions:} Our results demonstrate both the importance of an effective differential equation solver, and that the sun (due to its large mass) essentially controls all of the dynamics of the other bodies in the system. 
+\end{abstract}
+
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{introduction}
+\label{intro}
+While there are many types of magnetism in physics, the strongest and most common type one encounters in everyday life is ferromagnetism, in which a metal, such as iron or cobalt, becomes permanently magnetized when exposed to a magnetic field. This phenomenon is initiated by a quantum mechanical interaction which causes the spins of unpaired electrons to align, acting against the thermodynamic tendency to randomize the spins.
+
+One of the most common ways to analyze magnetism is the Ising model, in which the magnetic material is treated as a lattice of atomic spins which interact with each of it's nearest neighbors. In this model, at low temperatures the system exhibits spontaneous magnetization where the average magnetization is nonzero. As the temperature increases the system undergoes a second order phase transition at a specific temperature, known as the critical temperature. In a second order phase transition the two phases on either side of the transition are identical and the transition manifests as a discontinuity in the derivative of the energy, which is different from a first order transition in which the two different phases coexist at the critical temperature and the transition manifests as a discontinuity of the energy.
+
+In this work, we implement the metropolis algorithm with the ising model in two dimensions in order to study phase transitions of magnetic systems. Calculations of the average energy, heat capacity, average magnetization and the susceptibility are performed and compared to the expected values for a small system. In addition, the behavior of these quantities as a function of temperature is analyzed in order to extract the critical temperature of the phase transition. Finally, the performance of the metropolis algorithm is analyzed. In Sections \ref{theory} and \ref{methods}, the necessary theory and implementation of the algorithms are described. In Section ~\ref{results} the performance and accuracy of the code are analyzed. Finally, in Section \ref{conc} we give a summary and our conclusions.
+
+\section{theory}
+\label{theory}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Number of spins up & ~Degeneracy ~& ~ $E_i$ ~& ~ $M_i$ ~\\
+\hline
+4&1&-8&4\\
+3&4&0&2\\
+2&4&0&0\\
+2&2&8&0\\
+1&4&0&-2\\
+0&1&-8&-4\\
+\hline
+\end{tabular}
+\caption{Energy and magnetization of all possible configurations for a 2x2 lattice.}
+\label{comp}
+\end{table}
+
+For a simple 2x2 lattice the partition function is given by:
+\begin{equation}
+Z=\sum_i e^{-E_i/T} = 2e^{8/T}+2e^{-8/T}+12.
+\end{equation}
+Similarly the average energy and average squared energy are given by:
+\begin{gather}
+\langle E\rangle= \sum_i E_i e^{-E_i/T} = -16e^{8/T}+16e^{-8/T}\\
+\langle E^2\rangle= \sum_i E^2_i e^{-E_i/T} = 128e^{8/T}+128e^{-8/T}.
+\end{gather}
+From these quantities we can calculate the energy variance, which is related to the heat capacity by:
+\begin{gather}
+C_v = \frac{1}{T^2} \left(\langle E^2\rangle-\langle E\rangle^2\right) \notag \\
+= \frac{1}{T^2} \left(128e^{-8/T}-128e^{8/T}+512\right)
+\end{gather}
+
+Similarly, one can calculate the average magnetization, average square magnetization, and the magnetic susceptibility as:
+\begin{gather}
+\langle |M|\rangle= \sum_i |M_i| e^{-E_i/T} = 8e^{8/T}+8\\
+\langle M^2\rangle= \sum_i M^2_i e^{-E_i/T} = 32e^{8/T}+32 \\
+\chi = \frac{1}{T} \left(\langle M^2\rangle-\langle |M|\rangle^2\right)= \frac{1}{T} \left(-96e^{8/T}-32\right).
+\end{gather}
+These analytic values can then be compared to the calculated ones for a 2x2 lattice to ensure that the calculations are being performed correctly.
+
+\section{methods}
+\label{methods}
+
+
+%\begin{figure}[b]
+%\includegraphics[scale=0.33]{binary.pdf}
+%\caption{Comparison of Euler and Velocity Verlet algorithms for the binary Earth-Sun system with h = 0.001 and t$_f$ = 5 years.}
+%\label{binary}
+%\end{figure}
+
+\section{results}
+\label{results}
+
+
+\section{conclusions}
+\label{conc}
+
+%In summary, the goal of this work was to calculate numerically the paths of the planets in the solar system using Newton's law of gravitation. Two methods to calculate the differential equations were used, namely, the Euler method and the velocity Verlet method.
+
+%The Euler method was shown to be unstable in calculating the Earth's orbit in a system which only contained the Earth and sun. In contrast, the Verlet method was stable for practically all step sizes. While the Verlet method was slower, both methods took under one second for a five year simulation, so the difference in timing was negligible. In addition, with the Verlet method we show the importance of the correct initial conditions, as too large of a velocity could cause the system to become unbound.
+
+%Next, we include Jupiter in the model, and explore the dependance of Earth's trajectory on the mass of Jupiter. The calculations are first performed with the physical mass of Jupiter and then with a mass 10 times larger and then 100 times. In all cases the final trajectories were indistinguishable, showing that the sun has the more substantial effect on the orbit of the planets.
+
+%There are a number of ways that our code can be improved upon, for example there are more algorithms that could have been explored, such as the Runge-Kutta method~\cite{RK}, which could prove to be more efficient. In addition, the precession of Mercury is known to be incorrect when only newtonian mechanics are considered, so an approximation of the effects of general relativity could be employed to correct for the differences.
+
+% Finally, while the computation time for these examples were small, as moons and other various celestial bodies are added there may be a point in which parallelization of the Verlet algorithm as done in~\cite{omp} with OpenMP and MPI could be helpful. Although, it should be noted that this particular problem includes quite a bit of I/O manipulation, which would require additional effort.
+
+%Overall, we have demonstrated that using Newton's law of gravitation rather than general relativity yields fairly accurate results for the motion of the planets in our solar system. In addition, we have shown that the velocity Verlet algorithm is robust, especially for the chosen application. Finally, these results illustrate the importance of choosing the right tool for the job, as the Euler method failed to produce stable results for even the simplest of cases.
+
+
+
+\bibliography{ising}
+\end{document}
+

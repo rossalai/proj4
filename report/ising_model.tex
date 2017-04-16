@@ -39,13 +39,27 @@
 \label{intro}
 While there are many types of magnetism in physics, the strongest and most common type one encounters in everyday life is ferromagnetism, in which a metal, such as iron or cobalt, becomes permanently magnetized when exposed to a magnetic field. This phenomenon is initiated by a quantum mechanical interaction which causes the spins of unpaired electrons to align, acting against the thermodynamic tendency to randomize the spins.
 
-One of the most common ways to analyze magnetism is the Ising model, in which the magnetic material is treated as a lattice of atomic spins which interact with each of it's nearest neighbors. In this model, at low temperatures the system exhibits spontaneous magnetization where the average magnetization is nonzero. As the temperature increases the system undergoes a second order phase transition at a specific temperature, known as the critical temperature. In a second order phase transition the two phases on either side of the transition are identical and the transition manifests as a discontinuity in the derivative of the energy, which is different from a first order transition in which the two different phases coexist at the critical temperature and the transition manifests as a discontinuity of the energy.
+One of the most common ways to analyze magnetism is the Ising model, in which the magnetic material is treated as a lattice of atomic spins which interact with each of their nearest neighbors. In this model, at low temperatures the system exhibits spontaneous magnetization wherein the average magnetization is nonzero. As the temperature increases the system undergoes a second order phase transition at a specific temperature, known as the critical temperature. In a second order phase transition the two phases on either side of the transition are identical and the transition manifests as a discontinuity in the derivative of the energy, which is different from a first order transition (such as evaporation) in which the two different phases coexist at the critical temperature and the transition manifests as a discontinuity of the energy.
 
 In this work, we implement the metropolis algorithm with the ising model in two dimensions in order to study phase transitions of magnetic systems. Calculations of the average energy, heat capacity, average magnetization and the susceptibility are performed and compared to the expected values for a small system. In addition, the behavior of these quantities as a function of temperature is analyzed in order to extract the critical temperature of the phase transition. Finally, the performance of the metropolis algorithm is analyzed. In Sections \ref{theory} and \ref{methods}, the necessary theory and implementation of the algorithms are described. In Section ~\ref{results} the performance and accuracy of the code are analyzed. Finally, in Section \ref{conc} we give a summary and our conclusions.
 
 \section{theory}
 \label{theory}
-\begin{table}[h]
+In this work we will use the Canonical ensemble, where the probability of a given state $i$ is given by the Boltzman distribution (with the Boltzman constant set to one):
+\begin{equation}
+p_i(T) = \frac{e^{-E_i/T}}{Z}
+\end{equation}
+where Z is the partition function given by the following sum over all possible states:
+\begin{equation}
+Z=\sum_i e^{-E_i/T}.
+\end{equation}
+The energy of a particular microstate is given by:
+\begin{equation}
+E= -J\sum_{\langle kl \rangle} s_ks_l-B\sum_k s_k
+\end{equation}
+where $J$ is a coupling constant, $B$ is the external magnetic field and $s_{k,l}$ are the spins. In this work, the coupling constant is taken to be one and there is no external magnetic field.
+
+\begin{table}[b]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
@@ -59,13 +73,13 @@ Number of spins up & ~Degeneracy ~& ~ $E_i$ ~& ~ $M_i$ ~\\
 0&1&-8&-4\\
 \hline
 \end{tabular}
-\caption{Energy and magnetization of all possible configurations for a 2x2 lattice.}
-\label{comp}
+\caption{Energy and magnetization of all possible spin configurations for a 2x2 lattice.}
+\label{states}
 \end{table}
 
-For a simple 2x2 lattice the partition function is given by:
+For a simple 2x2 lattice the possible states are given in Table~\ref{states} and the partition function is given by:
 \begin{equation}
-Z=\sum_i e^{-E_i/T} = 2e^{8/T}+2e^{-8/T}+12.
+Z = 2e^{8/T}+2e^{-8/T}+12.
 \end{equation}
 Similarly the average energy and average squared energy are given by:
 \begin{gather}
@@ -74,7 +88,7 @@ Similarly the average energy and average squared energy are given by:
 \end{gather}
 From these quantities we can calculate the energy variance, which is related to the heat capacity by:
 \begin{gather}
-C_v = \frac{1}{T^2} \left(\langle E^2\rangle-\langle E\rangle^2\right) \notag \\
+C_V = \frac{1}{T^2} \left(\langle E^2\rangle-\langle E\rangle^2\right) \notag \\
 = \frac{1}{T^2} \left(128e^{-8/T}-128e^{8/T}+512\right)
 \end{gather}
 
@@ -84,10 +98,45 @@ Similarly, one can calculate the average magnetization, average square magnetiza
 \langle M^2\rangle= \sum_i M^2_i e^{-E_i/T} = 32e^{8/T}+32 \\
 \chi = \frac{1}{T} \left(\langle M^2\rangle-\langle |M|\rangle^2\right)= \frac{1}{T} \left(-96e^{8/T}-32\right).
 \end{gather}
-These analytic values can then be compared to the calculated ones for a 2x2 lattice to ensure that the calculations are being performed correctly.
+%These analytic values can then be compared to the calculated ones for a 2x2 lattice to ensure that the calculations are being performed correctly.
 
+In the Canonical ensemble the important potential is the Helmholtz free energy, which is given by:
+\begin{equation}
+F = -TlnZ.
+\end{equation}
+The average energy and heat capacity can then also be related to the first derivative of the Hemlholtz energy as:
+******THESE EQNS NEED TO BE FIXED LATER***
+\begin{gather}
+\langle E \rangle = T^2\left( \frac{\partial lnZ}{\partial T}\right)_{V,N} \\
+C_{V}=-\frac{1}{T^2}\frac{\partial^2 (TlnZ)}{\partial T^2}
+\end{gather}
+
+As discussed in Section~\ref{intro}, the phase transition will manifest as a discontinuity in the derivative of the energy (thus the heat capacity). However, near the critical temperature ($T_C$), the dependance of several physical quantities on temperature can be expressed using the following power laws:
+\begin{gather}
+\langle M(T) \rangle \sim (T-T_C)^\beta \\
+C_V(T)\sim |T_C -T|^{-\alpha} \\
+\chi(T) \sim |T_C-T|^{-\gamma}
+\end{gather}
+where the exponents are given by $\beta$ = 1/8, $\alpha$ = 0, and $~\gamma$ = $-7/4$.
 \section{methods}
 \label{methods}
+For an NxN lattice, the number of spin configurations is given by $2^{N^2}$. From Equations 5-10, we see that in order to calculate the various physical quantities of interest, we must sum over all possible microstates, however this is not trivial to perform computationally. To solve this problem we use the Metropolis algorithm~\cite{met} to generate a new configuration from the previous one. 
+
+In the Metropolis algorithm, we pick a random spin and determine the change in energy of the system when the spin is flipped. If that energy is less than the previous energy we accept the transition, if not then we calculate the value $w=e^{\Delta E/T}$ and generate a random number, $r$. If the random number is less than $w$, then the move is also accepted. This constitutes one Monte Carlo cycle, and is repeated until some maximum number of cycles has been achieved  that presumably ensures all configurations have been tested.
+
+As the lattice in our calculations is of dimension $N^2$ rather than infinite, there will be edge spins which have fewer neighbors than the rest. To get around this we will use periodic boundary condititons, where for example the top left spin's "top" neighbor is the bottom left spin etc.
+
+In addition, the lack of an infinite lattice means the behavior near the critical temperature will be modified from Equations 13-15, namely:
+\begin{gather}
+\langle M(T) \rangle \sim N^{-\beta/\nu} \\
+C_V(T)\sim N^{\alpha/\nu} \\
+\chi(T) \sim N^{\gamma/\nu}
+\end{gather}
+where $\nu$ is defined by the relationship between the infinite critical temperature and the calculated critical temperature:
+\begin{equation}
+T_C(N)-T_C(N=\infty) \sim aN^{-1/\nu}
+\end{equation}
+where a is a constant.
 
 
 %\begin{figure}[b]

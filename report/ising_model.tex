@@ -25,8 +25,8 @@
 
 \begin{abstract}
  \noindent {\bf Background:} A fairly accurate model of the solar system can be achieved with the use of newtonian mechanics. However, this leads to many coupled differential equations which are difficult to solve analytically.
-\\ {\bf Purpose:} The goal of this work is to solve numerically the aforementioned problem. We aim to study the numerical stability of various computation methods as well as the numerical precision.
-\\ {\bf Method:} We approximate the derivatives in the coupled differential equations and solve them using the Euler method and the velocity Verlet method.
+\\ {\bf Purpose:} The goal of this work is to solve the Ising model in two dimensions to probe the properties of phase transitions in magnetic materials.
+\\ {\bf Method:} We use the Metropolis algorithm to generate the possible spin configurations on the lattice and the Grand Canonical ensemble to analyze the statistical physics at play.
 \\ {\bf Results:} We find the the Euler method is unstable even in the binary Earth-Sun system, and causes non-conservation of both energy and angular momentum. In contrast, the velocity Verlet method is found to be very stable and enforces conservation of energy and angular momentum.
  \\ {\bf Conclusions:} Our results demonstrate both the importance of an effective differential equation solver, and that the sun (due to its large mass) essentially controls all of the dynamics of the other bodies in the system. 
 \end{abstract}
@@ -47,7 +47,7 @@ In this work, we implement the metropolis algorithm with the ising model in two 
 \label{theory}
 In this work we will use the Canonical ensemble, where the probability of a given state $i$ is given by the Boltzman distribution (with the Boltzman constant set to one):
 \begin{equation}
-p_i(T) = \frac{e^{-E_i/T}}{Z}
+P_i(T) = \frac{e^{-E_i/T}}{Z}
 \end{equation}
 where Z is the partition function given by the following sum over all possible states:
 \begin{equation}
@@ -138,15 +138,68 @@ T_C(N)-T_C(N=\infty) \sim aN^{-1/\nu}
 \end{equation}
 where a is a constant.
 
-
-%\begin{figure}[b]
-%\includegraphics[scale=0.33]{binary.pdf}
-%\caption{Comparison of Euler and Velocity Verlet algorithms for the binary Earth-Sun system with h = 0.001 and t$_f$ = 5 years.}
-%\label{binary}
-%\end{figure}
-
 \section{results}
 \label{results}
+We first aim to ensure the algorithm is working as expected by comparing the output for a 2x2 lattice to Equations 5-10. The number of Monte Carlo (MC) cycles needed for 0.1\% agreement is given in Table~\ref{cycles}.
+
+\begin{table}[b]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Quantity& Error (\%) & MC cycles\\
+\hline
+$\langle E\rangle$&0.004 &5000 \\
+$\langle E^2\rangle$&0.09 &900 \\
+$C_V$ &&\\
+$\langle |M|\rangle$&0.09 &6000 \\
+$\langle |M^2|\rangle$&0.089 &3000 \\
+$\chi$&&\\
+\hline
+\end{tabular}
+\caption{Energy and magnetization of all possible spin configurations for a 2x2 lattice.}
+\label{cycles}
+\end{table}
+
+In addition, we want to explore the equilibration time for the average energy and magnetization. To view this, we plot each quantity as a function of the number of Monte Carlo cycles. For comparison, we start with all the spins aligned or the spins aligned randomly. These are shown in Figures~\ref{E_mc} and \ref{M_mc} respectively where the black(green) solid curve corresponds to the initially random configuration and the red(blue) dashed curve corresponds to the initial configuration with all spins up  at ~~~T = 2.4 (1.0). In each figure we see that at the lower temperature, equilibrium is almost immediately reached for the ordered configuration, while it takes roughly 5000 MC cycles for the random configuration. In contrast, at the higher temperature the time to equilibrium seems to be independent of the initial configuration as both take roughly 2000 MC cycles.
+
+
+\begin{figure}[t]
+\includegraphics[scale=0.33]{energy_mc.pdf}
+\caption{Average energy as a function of the number of Monte Carlo cycles.}
+\label{E_mc}
+\end{figure}
+
+\begin{figure}[b]
+\includegraphics[scale=0.33]{mag_mc.pdf}
+\caption{Average magnetization as a function of the number of Monte Carlo cycles.}
+\label{M_mc}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[scale=0.33]{config_mc.pdf}
+\caption{Number of allowed transitions as a function of the number of Monte Carlo cycles.}
+\label{config_mc}
+\end{figure}
+
+Next, we investigate the number of accepted transitions as a function of the number of MC cycles in Figure~\ref{config_mc} and as a fucntion of temperature in Figure~\ref{config_T}. In Figure~\ref{config_mc} we again see that for the higher temperature that the performance is almost independent of the initial configuration, while the random configuration allows more transitions than the ordered configuration for small numbers of MC cycles. In Figure~\ref{config_T} the black solid line corresponds to XXXX. 
+
+\begin{figure}[b]
+\includegraphics[scale=0.33]{config_T.pdf}
+\caption{Number of allowed transitions as a function of temperature for 20000 MC cycles}
+\label{config_T}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[scale=0.33]{ei_1.pdf}
+\caption{Energy probability distribution for 20000 MC cycles at T = 1.0}
+\label{ei_1}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[scale=0.33]{ei_2.pdf}
+\caption{Energy probability distribution for 20000 MC cycles at T = 2.4}
+\label{ei_2}
+\end{figure}
 
 
 \section{conclusions}

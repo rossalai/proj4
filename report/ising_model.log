@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  16 APR 2017 20:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 APR 2017 01:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -196,7 +196,11 @@ Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
 \verbatim@line=\toks24
 \verbatim@in@stream=\read1
 )
-(./ising_model.aux)
+(./ising_model.aux
+
+LaTeX Warning: Label `cycles' multiply defined.
+
+)
 \openout1 = `ising_model.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -352,60 +356,113 @@ Overfull \hbox (16.34091pt too wide) in paragraph at lines 193--194
  [][] 
  []
 
+[3 <./energy_mc.pdf, page is rotated 90 degrees> <./mag_mc.pdf, page is rotated
+ 90 degrees> <./config_mc.pdf, page is rotated 90 degrees> <./config_T.pdf, pag
+e is rotated 90 degrees>]
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
+ on input line 199.
 
-<ei_2.pdf, id=31, 794.97pt x 614.295pt>
+<ei_2.pdf, id=46, 794.97pt x 614.295pt>
 File: ei_2.pdf Graphic file (type pdf)
  <use ei_2.pdf>
-Package pdftex.def Info: ei_2.pdf used on input line 199.
+Package pdftex.def Info: ei_2.pdf used on input line 215.
 (pdftex.def)             Requested size: 262.34091pt x 202.71797pt.
 
-Overfull \hbox (16.34091pt too wide) in paragraph at lines 199--200
+Overfull \hbox (16.34091pt too wide) in paragraph at lines 215--216
  [][] 
  []
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+Package natbib Warning: Citation `?' on page 4 undefined on input line 226.
 
+<avg_energy.pdf, id=47, 794.97pt x 614.295pt>
+File: avg_energy.pdf Graphic file (type pdf)
+ <use avg_energy.pdf>
+Package pdftex.def Info: avg_energy.pdf used on input line 245.
+(pdftex.def)             Requested size: 262.34091pt x 202.71797pt.
+
+Overfull \hbox (16.34091pt too wide) in paragraph at lines 245--246
+ [][] 
+ []
+
+<avg_mag.pdf, id=48, 794.97pt x 614.295pt>
+File: avg_mag.pdf Graphic file (type pdf)
+ <use avg_mag.pdf>
+Package pdftex.def Info: avg_mag.pdf used on input line 252.
+(pdftex.def)             Requested size: 262.34091pt x 202.71797pt.
+
+Overfull \hbox (16.34091pt too wide) in paragraph at lines 252--253
+ [][] 
+ []
+
+<var_energy.pdf, id=49, 794.97pt x 614.295pt>
+File: var_energy.pdf Graphic file (type pdf)
+ <use var_energy.pdf>
+Package pdftex.def Info: var_energy.pdf used on input line 258.
+(pdftex.def)             Requested size: 262.34091pt x 202.71797pt.
+
+Overfull \hbox (16.34091pt too wide) in paragraph at lines 258--259
+ [][] 
+ []
+
+<var_mag.pdf, id=50, 794.97pt x 614.295pt>
+File: var_mag.pdf Graphic file (type pdf)
+ <use var_mag.pdf>
+Package pdftex.def Info: var_mag.pdf used on input line 264.
+(pdftex.def)             Requested size: 262.34091pt x 202.71797pt.
+
+Overfull \hbox (16.34091pt too wide) in paragraph at lines 264--265
+ [][] 
+ []
+
+[4 <./ei_1.pdf, page is rotated 90 degrees> <./ei_2.pdf, page is rotated 90 deg
+rees>]
+
+LaTeX Warning: A float is stuck (cannot be placed); try class option [floatfix]
+ on input line 273.
+
+[5 <./avg_energy.pdf, page is rotated 90 degrees> <./avg_mag.pdf, page is rotat
+ed 90 degrees> <./var_energy.pdf, page is rotated 90 degrees> <./var_mag.pdf, p
+age is rotated 90 degrees>]
 No file ising_model.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-[3 <./energy_mc.pdf, page is rotated 90 degrees> <./mag_mc.pdf, page is rotated
- 90 degrees> <./config_mc.pdf, page is rotated 90 degrees> <./config_T.pdf, pag
-e is rotated 90 degrees>] [4 <./ei_1.pdf, page is rotated 90 degrees> <./ei_2.p
-df, page is rotated 90 degrees>] (./ising_model.aux) ) 
+[6] (./ising_model.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4109 strings out of 493089
- 53591 string characters out of 6134842
- 135264 words of memory out of 5000000
- 7532 multiletter control sequences out of 15000+600000
+ 4136 strings out of 493089
+ 53964 string characters out of 6134842
+ 135376 words of memory out of 5000000
+ 7555 multiletter control sequences out of 15000+600000
  9662 words of font info for 38 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,9n,26p,901b,272s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2015/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2015/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2015/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2015/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2015/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2015/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy9.pfb>
-Output written on ising_model.pdf (4 pages, 202596 bytes).
+ 38i,9n,26p,1003b,272s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/
+local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loca
+l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/
+texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
+xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texli
+ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2015/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
+Output written on ising_model.pdf (6 pages, 217578 bytes).
 PDF statistics:
- 109 PDF objects out of 1000 (max. 8388607)
- 79 compressed objects within 1 object stream
+ 133 PDF objects out of 1000 (max. 8388607)
+ 97 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -181,7 +181,7 @@ In addition, we want to explore the equilibration time for the average energy an
 \label{config_mc}
 \end{figure}
 
-Next, we investigate the number of accepted transitions as a function of the number of MC cycles in Figure~\ref{config_mc} and as a fucntion of temperature in Figure~\ref{config_T}. In Figure~\ref{config_mc} we again see that for the higher temperature that the performance is almost independent of the initial configuration, while the random configuration allows more transitions than the ordered configuration for small numbers of MC cycles. In Figure~\ref{config_T} the black solid line corresponds to XXXX. 
+Next, we investigate the number of accepted transitions as a function of the number of MC cycles in Figure~\ref{config_mc} and as a fucntion of temperature in Figure~\ref{config_T}. In Figure~\ref{config_mc} we again see that for the higher temperature that the performance is almost independent of the initial configuration, while the random configuration allows more transitions than the ordered configuration for small numbers of MC cycles. In Figure~\ref{config_T} the black solid line corresponds to the initially random configuration and the red dashed curve corresponds to the ordered configuration.
 
 \begin{figure}[b]
 \includegraphics[scale=0.33]{config_T.pdf}
@@ -189,27 +189,101 @@ Next, we investigate the number of accepted transitions as a function of the num
 \label{config_T}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[t]
 \includegraphics[scale=0.33]{ei_1.pdf}
 \caption{Energy probability distribution for 20000 MC cycles at T = 1.0}
 \label{ei_1}
 \end{figure}
 
-\begin{figure}[h]
+Additionally, we would like to analyze the probability distribution of energies at both high and low temperature. At low temperatures, one expects the distribution to be concentrated around the mean value with small deviations as the configuration starts at the lowest energy state, so the only acccepted energy changes will be those that increase the energy, and a smaller temperature means smaller values will be accepted in the Metropolis algorithm. In contrast, at higher temperatures there should then be a more broad distribution. This is demonstrated by the energy variance, which for T = 2.4 is roughly sixty times larger than for T = 1.0. This is also demonstrated in Figures~\ref{ei_1} and~\ref{ei_2} which show histograms of the accepted energies for T = 1.0 and 2.4 respectively with 20000 MC cycles. In Figure~\ref{ei_1} we see that almost all of the probability is situated in a few bins, while in Figure~\ref{ei_2} the distribution spread over many more energies.
+
+\begin{table}[b]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Temperature & Variance\\
+\hline
+1.0 & 0.129 \\
+2.4 & 7.917 \\
+\hline
+\end{tabular}
+\caption{Energy and magnetization of all possible spin configurations for a 2x2 lattice.}
+\label{cycles}
+\end{table}
+
+\begin{figure}[t]
 \includegraphics[scale=0.33]{ei_2.pdf}
 \caption{Energy probability distribution for 20000 MC cycles at T = 2.4}
 \label{ei_2}
 \end{figure}
 
+Finally, we ultimately want to investigate the properties of the phase transition, including the critical temperature and the behavior near it. We calculate the average energy, average absolute value of magnetization, heat capacity and magnetic susceptibility in Figures~\ref{ei_2}-\ref{var_m} respectively for lattice sizes of 80x80 (black solid line), 60x60 (red dashed line), 40x40 (green dot dashed line), and 20x20 (blue dotted line). In each we choose a temperature step size of 0.1 and ten thousand MC cycles when outside the range of $T=[2.2,2.4]$ and a temperature step size of 0.02 and one hundred thousand MC cycles inside the range. This is done to save computation time in the areas that are further from the critical temperature and therefore of less interest.
+
+In Figure~\ref{avg_e}, we expect the phase transition to manifest as a discontinuity in the second derivative of the energy, which would manifest as an inflection point. This can be seen for all lattice sizes near $T_C=2.28$. As the head capacity corresponds to the second derivative of the potential, we expect a divergence at the critical point. Since the lattice is finite, this will manifest as a sharp peak, which can also be seen at $T_C=2.26$ in Figure~\ref{var_e}.
+
+Similarly, In Figure~\ref{avg_m} we expect there to be a sharp drop to zero magnetization at the critical temperature. Again due to the finite size of the lattice there will be some deviation from this, but the critical temperature is determined to be $T_C=2.32$. For the susceptibility, the critical temperature is determined to be at $T_C=2.30$.
+
+Using these calculated values and Equations 17-20, the critical temperature for an infinite lattice is computed and compared to the exact result of 2.269~\cite{?} in Table~\ref{comp}. Here we find that the most accurate method of determining the critical temperature was via the average energy, which gave an infinite lattice critical temperature of $T_C=2.268$, which is 0.04\% from the expected value. From the figures, this also appears to be the most stable calculation with lattice size.
+
+\begin{table}[b]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Method&$T_C$ (N=80) &$T_C$ (N=$\infty$)&Error (\%) \\
+\hline
+$\langle E\rangle$&2.28&2.268 &0.04\\
+$C_V$ &2.26&2.248&0.93\\
+$\langle |M|\rangle$&2.32& 2.308&1.72\\
+$\chi$&2.30&2.288&0.84\\
+\hline
+\end{tabular}
+\caption{Calculated critical temperatures for a finite lattice and the extrapolated values for an infinite lattice.}
+\label{comp}
+\end{table}
+
+\begin{figure}[t]
+\includegraphics[scale=0.33]{avg_energy.pdf}
+\caption{Average energy as a function of temperature for lattice sizes of 20,40,60 and 80.}
+\label{avg_e}
+\end{figure}
+
+
+\begin{figure}[b]
+\includegraphics[scale=0.33]{avg_mag.pdf}
+\caption{Average absolute value of magnetization as a function of temperature for lattice sizes of 20,40,60 and 80.}
+\label{avg_m}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[scale=0.33]{var_energy.pdf}
+\caption{Heat capacity as a function of temperature for lattice sizes of 20,40,60 and 80.}
+\label{var_e}
+\end{figure}
+
+\begin{figure}[b]
+\includegraphics[scale=0.33]{var_mag.pdf}
+\caption{Magnetic susceptibility as a function of temperature for lattice sizes of 20,40,60 and 80.}
+\label{var_m}
+\end{figure}
+
 
 \section{conclusions}
 \label{conc}
+In summary, the goal of this work was to simulate phase transitions of magnetic materials via the Ising model. To do this, the stochastic process is simulated by random flipping of spins and the Metropolis algorithm to determine valid transitions. Calculations were performed for the average energy, average square energy, head capacity, average magnetization, average square magnetization and magnetic susceptibility for varying lattice sizes and number of Monte Carlo cycles.
+
+First, we investigated the time to equilibrium for the average energy and magnetization with both a random starting orientation, and an ordered orientation. This was done for both a low and a high temperature. Here it was found that at high temperatures the initial orientation did not effect the number of cycles needed, while it could almost double the number of necessary cycles at low temperatures.
+
+Next, we perform calculations at T = 1.0 and 2.4 and view the energy probability distributions. Here we find that at low temperatures the probability is strongly focussed around one energy with a very small variance. In contrast, at higher energy the Metropolis algorithm has a greater probability of accepting transitions, so the probability distribution is much more broad.
+
+Finally, we plot our observables as a function of temperature in order to extract the critical temperature of the phase transition. As the calculations are performed on a finite lattice the results are transformed using Equations 17-20 and compared to the expected value of 2.269. The best calculation came from the average energy, which gave a critical temperature that was less than 0.1\% different.
 
 %In summary, the goal of this work was to calculate numerically the paths of the planets in the solar system using Newton's law of gravitation. Two methods to calculate the differential equations were used, namely, the Euler method and the velocity Verlet method.
 
 %The Euler method was shown to be unstable in calculating the Earth's orbit in a system which only contained the Earth and sun. In contrast, the Verlet method was stable for practically all step sizes. While the Verlet method was slower, both methods took under one second for a five year simulation, so the difference in timing was negligible. In addition, with the Verlet method we show the importance of the correct initial conditions, as too large of a velocity could cause the system to become unbound.
 
 %Next, we include Jupiter in the model, and explore the dependance of Earth's trajectory on the mass of Jupiter. The calculations are first performed with the physical mass of Jupiter and then with a mass 10 times larger and then 100 times. In all cases the final trajectories were indistinguishable, showing that the sun has the more substantial effect on the orbit of the planets.
+
+There are a number of ways that out code can be improved upon, for example XXX
 
 %There are a number of ways that our code can be improved upon, for example there are more algorithms that could have been explored, such as the Runge-Kutta method~\cite{RK}, which could prove to be more efficient. In addition, the precession of Mercury is known to be incorrect when only newtonian mechanics are considered, so an approximation of the effects of general relativity could be employed to correct for the differences.
 

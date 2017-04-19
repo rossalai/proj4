@@ -2,7 +2,7 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Alaina Ross at 2017-04-19 14:17:30 -0400 
+%% Created for Alaina Ross at 2017-04-19 14:13:08 -0400 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
@@ -46,16 +46,23 @@
 	Year = {1952},
 	Bdsk-Url-1 = {http://dx.doi.org/10.1017/S0305004100027419}}
 
-@article{met,
-	Author = {Nicholas Metropolis and Arianna W. Rosenbluth and Marshall N. Rosenbluth and Augusta H. Teller and Edward Teller},
-	Date-Modified = {2017-04-19 18:17:28 +0000},
-	Doi = {10.1063/1.1699114},
-	Eprint = {http://dx.doi.org/10.1063/1.1699114},
-	Journal = {The Journal of Chemical Physics},
-	Number = {6},
-	Pages = {1087-1092},
-	Title = {Equation of State Calculations by Fast Computing Machines},
-	Url = {http://dx.doi.org/10.1063/1.1699114},
-	Volume = {21},
-	Year = {1953},
-	Bdsk-Url-1 = {http://dx.doi.org/10.1063/1.1699114}}
+@article{doi:10.1063/1.1699114,
+author = {Nicholas Metropolis and Arianna W. Rosenbluth and Marshall N. Rosenbluth and Augusta H. Teller and Edward Teller},
+title = {Equation of State Calculations by Fast Computing Machines},
+journal = {The Journal of Chemical Physics},
+volume = {21},
+number = {6},
+pages = {1087-1092},
+year = {1953},
+doi = {10.1063/1.1699114},
+
+URL = { 
+        http://dx.doi.org/10.1063/1.1699114
+    
+},
+eprint = { 
+        http://dx.doi.org/10.1063/1.1699114
+    
+}
+
+}

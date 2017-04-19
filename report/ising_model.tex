@@ -24,11 +24,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
- \noindent {\bf Background:} A fairly accurate model of the solar system can be achieved with the use of newtonian mechanics. However, this leads to many coupled differential equations which are difficult to solve analytically.
+ \noindent {\bf Background:} The Ising model treats magnetic material as a lattice of spins which only interact with their nearest neighbors and can be used to model phase transitions.
 \\ {\bf Purpose:} The goal of this work is to solve the Ising model in two dimensions to probe the properties of phase transitions in magnetic materials.
 \\ {\bf Method:} We use the Metropolis algorithm to generate the possible spin configurations on the lattice and the Grand Canonical ensemble to analyze the statistical physics at play.
-\\ {\bf Results:} We find the the Euler method is unstable even in the binary Earth-Sun system, and causes non-conservation of both energy and angular momentum. In contrast, the velocity Verlet method is found to be very stable and enforces conservation of energy and angular momentum.
- \\ {\bf Conclusions:} Our results demonstrate both the importance of an effective differential equation solver, and that the sun (due to its large mass) essentially controls all of the dynamics of the other bodies in the system. 
+\\ {\bf Results:} We find that for low temperatures, the probability distribution of the energy is all focused around one value, while at higher temperatures the distribution is much more broad. In addition, we find the critical temperature of the phase transition to occur at $T_C=2.268$, which is 0.04\% from the expected value.
+ \\ {\bf Conclusions:} Our results demonstrate the power of computational efforts in statistical physics.
 \end{abstract}
 
 
@@ -39,9 +39,9 @@
 \label{intro}
 While there are many types of magnetism in physics, the strongest and most common type one encounters in everyday life is ferromagnetism, in which a metal, such as iron or cobalt, becomes permanently magnetized when exposed to a magnetic field. This phenomenon is initiated by a quantum mechanical interaction which causes the spins of unpaired electrons to align, acting against the thermodynamic tendency to randomize the spins.
 
-One of the most common ways to analyze magnetism is the Ising model, in which the magnetic material is treated as a lattice of atomic spins which interact with each of their nearest neighbors. In this model, at low temperatures the system exhibits spontaneous magnetization wherein the average magnetization is nonzero. As the temperature increases the system undergoes a second order phase transition at a specific temperature, known as the critical temperature. In a second order phase transition the two phases on either side of the transition are identical and the transition manifests as a discontinuity in the derivative of the energy, which is different from a first order transition (such as evaporation) in which the two different phases coexist at the critical temperature and the transition manifests as a discontinuity of the energy.
+One of the most common ways to analyze magnetism is the Ising model, in which the magnetic material is treated as a lattice of atomic spins which interact with each of their nearest neighbors. In this model, at low temperatures the system exhibits spontaneous magnetization wherein the average magnetization is nonzero. As the temperature increases the system undergoes a second order phase transition at a specific temperature, known as the critical temperature~\cite{ising}. In a second order phase transition the two phases on either side of the transition are identical and the transition manifests as a discontinuity in the derivative of the energy, which is different from a first order transition (such as evaporation) in which the two different phases coexist at the critical temperature and the transition manifests as a discontinuity of the energy.
 
-In this work, we implement the metropolis algorithm with the ising model in two dimensions in order to study phase transitions of magnetic systems. Calculations of the average energy, heat capacity, average magnetization and the susceptibility are performed and compared to the expected values for a small system. In addition, the behavior of these quantities as a function of temperature is analyzed in order to extract the critical temperature of the phase transition. Finally, the performance of the metropolis algorithm is analyzed. In Sections \ref{theory} and \ref{methods}, the necessary theory and implementation of the algorithms are described. In Section ~\ref{results} the performance and accuracy of the code are analyzed. Finally, in Section \ref{conc} we give a summary and our conclusions.
+In this work, we implement the metropolis algorithm~\cite{met} with the Ising model in two dimensions in order to study phase transitions of magnetic systems. Calculations of the average energy, heat capacity, average magnetization and the susceptibility are performed and compared to the expected values for a small system. In addition, the behavior of these quantities as a function of temperature is analyzed in order to extract the critical temperature of the phase transition. Finally, the performance of the metropolis algorithm is analyzed. In Sections \ref{theory} and \ref{methods}, the necessary theory and implementation of the algorithms are described. In Section ~\ref{results} we give the results and the performance and accuracy of the code are analyzed. Finally, in Section \ref{conc} we give a summary and our conclusions.
 
 \section{theory}
 \label{theory}
@@ -105,13 +105,12 @@ In the Canonical ensemble the important potential is the Helmholtz free energy, 
 F = -TlnZ.
 \end{equation}
 The average energy and heat capacity can then also be related to the first derivative of the Hemlholtz energy as:
-******THESE EQNS NEED TO BE FIXED LATER***
 \begin{gather}
 \langle E \rangle = T^2\left( \frac{\partial lnZ}{\partial T}\right)_{V,N} \\
-C_{V}=-\frac{1}{T^2}\frac{\partial^2 (TlnZ)}{\partial T^2}
+C_{V}=-\frac{1}{T^2}\frac{\partial^2 lnZ}{\partial T^2}
 \end{gather}
 
-As discussed in Section~\ref{intro}, the phase transition will manifest as a discontinuity in the derivative of the energy (thus the heat capacity). However, near the critical temperature ($T_C$), the dependance of several physical quantities on temperature can be expressed using the following power laws:
+As discussed in Section~\ref{intro}, the phase transition will manifest as a discontinuity or divergence in the derivative of the energy (thus the heat capacity). However, near the critical temperature ($T_C$), the dependance of several physical quantities on temperature can be expressed using the following power laws:
 \begin{gather}
 \langle M(T) \rangle \sim (T-T_C)^\beta \\
 C_V(T)\sim |T_C -T|^{-\alpha} \\
@@ -140,7 +139,7 @@ where a is a constant.
 
 \section{results}
 \label{results}
-We first aim to ensure the algorithm is working as expected by comparing the output for a 2x2 lattice to Equations 5-10. The number of Monte Carlo (MC) cycles needed for 0.1\% agreement is given in Table~\ref{cycles}.
+We first aim to ensure the algorithm is working as expected by comparing the output for a 2x2 lattice to Equations 5-10. The number of Monte Carlo (MC) cycles needed for 1\% agreement is given in Table~\ref{cycles}.
 
 \begin{table}[b]
 \centering
@@ -148,12 +147,12 @@ We first aim to ensure the algorithm is working as expected by comparing the out
 \hline
 Quantity& Error (\%) & MC cycles\\
 \hline
-$\langle E\rangle$&0.004 &5000 \\
-$\langle E^2\rangle$&0.09 &900 \\
-$C_V$ &&\\
-$\langle |M|\rangle$&0.09 &6000 \\
-$\langle |M^2|\rangle$&0.089 &3000 \\
-$\chi$&&\\
+$\langle E\rangle$&0.80 &200 \\
+$\langle E^2\rangle$&0.80 &200 \\
+$C_V$ &0.74&2E7\\
+$\langle |M|\rangle$&0.20 &10 \\
+$\langle |M^2|\rangle$& 0.20 &10 \\
+$\chi$&0.89&2E8\\
 \hline
 \end{tabular}
 \caption{Energy and magnetization of all possible spin configurations for a 2x2 lattice.}
@@ -219,11 +218,11 @@ Temperature & Variance\\
 
 Finally, we ultimately want to investigate the properties of the phase transition, including the critical temperature and the behavior near it. We calculate the average energy, average absolute value of magnetization, heat capacity and magnetic susceptibility in Figures~\ref{ei_2}-\ref{var_m} respectively for lattice sizes of 80x80 (black solid line), 60x60 (red dashed line), 40x40 (green dot dashed line), and 20x20 (blue dotted line). In each we choose a temperature step size of 0.1 and ten thousand MC cycles when outside the range of $T=[2.2,2.4]$ and a temperature step size of 0.02 and one hundred thousand MC cycles inside the range. This is done to save computation time in the areas that are further from the critical temperature and therefore of less interest.
 
-In Figure~\ref{avg_e}, we expect the phase transition to manifest as a discontinuity in the second derivative of the energy, which would manifest as an inflection point. This can be seen for all lattice sizes near $T_C=2.28$. As the head capacity corresponds to the second derivative of the potential, we expect a divergence at the critical point. Since the lattice is finite, this will manifest as a sharp peak, which can also be seen at $T_C=2.26$ in Figure~\ref{var_e}.
+In Figure~\ref{avg_e}, we expect the phase transition to manifest as a divergence in the derivative of the energy, which should correspond to an inflection point. This can be seen for all lattice sizes near $T_C=2.28$. As the heat capacity corresponds to the derivative of the energy, we expect a divergence at the critical point. Since the lattice is finite, this will manifest as a sharp peak, which can be seen at $T_C=2.26$ in Figure~\ref{var_e}.
 
-Similarly, In Figure~\ref{avg_m} we expect there to be a sharp drop to zero magnetization at the critical temperature. Again due to the finite size of the lattice there will be some deviation from this, but the critical temperature is determined to be $T_C=2.32$. For the susceptibility, the critical temperature is determined to be at $T_C=2.30$.
+Similarly, in Figure~\ref{avg_m} we expect there to be a sharp drop to zero magnetization at the critical temperature. Again due to the finite size of the lattice there will be some deviation from this, but the critical temperature is determined to be $T_C=2.32$. For the susceptibility, the critical temperature is determined to be at $T_C=2.30$.
 
-Using these calculated values and Equations 17-20, the critical temperature for an infinite lattice is computed and compared to the exact result of 2.269~\cite{?} in Table~\ref{comp}. Here we find that the most accurate method of determining the critical temperature was via the average energy, which gave an infinite lattice critical temperature of $T_C=2.268$, which is 0.04\% from the expected value. From the figures, this also appears to be the most stable calculation with lattice size.
+Using these calculated values and Equation 20, the critical temperature for an infinite lattice is computed and compared to the exact result of 2.269~\cite{tc} in Table~\ref{comp}. Here we find that the most accurate method of determining the critical temperature was via the average energy, which gave an infinite lattice critical temperature of $T_C=2.268$, which is 0.04\% from the expected value. From the figures, this also appears to be the most stable calculation with lattice size.
 
 \begin{table}[b]
 \centering
@@ -275,7 +274,7 @@ First, we investigated the time to equilibrium for the average energy and magnet
 
 Next, we perform calculations at T = 1.0 and 2.4 and view the energy probability distributions. Here we find that at low temperatures the probability is strongly focussed around one energy with a very small variance. In contrast, at higher energy the Metropolis algorithm has a greater probability of accepting transitions, so the probability distribution is much more broad.
 
-Finally, we plot our observables as a function of temperature in order to extract the critical temperature of the phase transition. As the calculations are performed on a finite lattice the results are transformed using Equations 17-20 and compared to the expected value of 2.269. The best calculation came from the average energy, which gave a critical temperature that was less than 0.1\% different.
+Finally, we plot our observables as a function of temperature in order to extract the critical temperature of the phase transition. As the calculations are performed on a finite lattice the results are transformed using Equation 20 and compared to the expected value of 2.269. The best calculation came from the average energy, which gave a critical temperature that was less than 0.1\% different.
 
 %In summary, the goal of this work was to calculate numerically the paths of the planets in the solar system using Newton's law of gravitation. Two methods to calculate the differential equations were used, namely, the Euler method and the velocity Verlet method.
 
@@ -283,11 +282,13 @@ Finally, we plot our observables as a function of temperature in order to extrac
 
 %Next, we include Jupiter in the model, and explore the dependance of Earth's trajectory on the mass of Jupiter. The calculations are first performed with the physical mass of Jupiter and then with a mass 10 times larger and then 100 times. In all cases the final trajectories were indistinguishable, showing that the sun has the more substantial effect on the orbit of the planets.
 
-There are a number of ways that out code can be improved upon, for example XXX
+There are a number of ways that our code can be improved upon, for example the the large lattice calculations are fairly computationally intensive, especially near the critical temperature where the necessary number of MC cycles is also large. To improve upon computation time, parallelization of the code with MPI could be utilized in which different nodes each perform a certain number of MC cycles. In addition, rather than the Ising model one could explore different models of phase transitions such as the Potts model~\cite{potts}.
 
 %There are a number of ways that our code can be improved upon, for example there are more algorithms that could have been explored, such as the Runge-Kutta method~\cite{RK}, which could prove to be more efficient. In addition, the precession of Mercury is known to be incorrect when only newtonian mechanics are considered, so an approximation of the effects of general relativity could be employed to correct for the differences.
 
 % Finally, while the computation time for these examples were small, as moons and other various celestial bodies are added there may be a point in which parallelization of the Verlet algorithm as done in~\cite{omp} with OpenMP and MPI could be helpful. Although, it should be noted that this particular problem includes quite a bit of I/O manipulation, which would require additional effort.
+
+Overall, we have successfully implemented the two dimensional Ising model to model magnetic phase transitions. To achieve this, we have analyzed the convergence of the solution with the number of Monte Carlo cycles and then performed calculations of the average energy, specific heat, average magnetization, and magnetic susceptibility. Through these calculations we have extracted the critical temperature of the phase transition to within 2\% accuracy. Our results demonstrate the power of computational work in regards to statistical processes, as the calculations we have performed are far too intensive to be performed analytically.
 
 %Overall, we have demonstrated that using Newton's law of gravitation rather than general relativity yields fairly accurate results for the motion of the planets in our solar system. In addition, we have shown that the velocity Verlet algorithm is robust, especially for the chosen application. Finally, these results illustrate the importance of choosing the right tool for the job, as the Euler method failed to produce stable results for even the simplest of cases.
 

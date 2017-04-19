@@ -9,8 +9,11 @@
 using namespace std;
 using namespace arma;
 
-void initialize(int n, mat& lattice, double T, double& E,double& M,vector<double>&w){
+void initialize(int n, mat& lattice, double T, double& E,double& M,
+        vector<double>&w,default_random_engine&e,string order){
     double de=-8;
+    int indx;
+    int spin;
     for(int i=0;i<=16;i++){
         if(i%4==0){w[i]=(exp(-de/T));}
         else{w[i]=(0);}
@@ -18,8 +21,13 @@ void initialize(int n, mat& lattice, double T, double& E,double& M,vector<double
     }
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
-            lattice(i,j)=1;
-            M+=1;
+            if(order=="rand"){
+                indx=rand_index(e,2);
+                spin=rand_spin(indx);
+            }
+            else{spin=1;}
+            lattice(i,j)=spin;
+            M+=spin;
         }
     }
     for(int i=0;i<n;i++){
@@ -49,7 +57,7 @@ void initialize(int n, mat& lattice, double T, double& E,double& M,vector<double
 }
 
 void metropolis(int n, mat& lattice, default_random_engine& e,double& E,
-        double& M,vector<double> w){
+        double& M,vector<double> w,long& acc){
     int x,y,delta_E;
     vector<pair<int,int> > nn;
     for(int i=0;i<n;i++){
@@ -64,6 +72,7 @@ void metropolis(int n, mat& lattice, default_random_engine& e,double& E,
                 lattice(x,y)*=-1;
                 M+=(double)2*lattice(x,y);
                 E+=(double)delta_E;
+                acc++;
             }
         }
     }
@@ -107,4 +116,11 @@ int rand_index(default_random_engine&e,int n){
 double rand_num(default_random_engine&e){
     uniform_real_distribution<double> dist(0.0,1.0);
     return dist(e);
+}
+
+int rand_spin(int indx){
+    vector<int> spins(2);
+    spins[0]=-1;
+    spins[1]=1;
+    return spins[indx];
 }
